@@ -12,6 +12,7 @@ class NewsCompactCVCell: UICollectionViewCell {
     
     // MARK: -
     static let cellID = "compactCell"
+    private let disposeBag = DisposeBag()
     
     public var newsViewModel: NewsViewModel! {
         didSet {
@@ -20,12 +21,11 @@ class NewsCompactCVCell: UICollectionViewCell {
             self.newsDateLabel.text     = newsViewModel.date
             
             self.newsViewModel.image.subscribe { image in
-                self.newsImageView.contentMode = .scaleAspectFill
-                self.newsImageView.image = image
-            } onError: { error in
-                print(error)
-            }.disposed(by: DisposeBag())
-
+                DispatchQueue.main.async {
+                    self.newsImageView.image        = image
+                    self.newsImageView.contentMode  = .scaleAspectFill
+                }
+            } onError: { _ in }.disposed(by: disposeBag)
         }
     }
     
@@ -55,14 +55,14 @@ class NewsCompactCVCell: UICollectionViewCell {
     
     // MARK: -
     private func configure() {
-        self.backgroundColor    = UIColor(named: "cellBackground")
-        self.layer.cornerRadius = 23
-        self.layer.cornerCurve  = .continuous
-        
-        self.layer.shadowColor      = UIColor.black.cgColor
-        self.layer.shadowOffset     = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius     = 10
-        self.layer.shadowOpacity    = 0.1
+//        self.backgroundColor    = UIColor(named: "cellBackground")
+//        self.layer.cornerRadius = 23
+//        self.layer.cornerCurve  = .continuous
+//
+//        self.layer.shadowColor      = UIColor.black.cgColor
+//        self.layer.shadowOffset     = CGSize(width: 0, height: 0)
+//        self.layer.shadowRadius     = 10
+//        self.layer.shadowOpacity    = 0.1
     }
     
     private func configureNewsImageView() {
@@ -77,7 +77,7 @@ class NewsCompactCVCell: UICollectionViewCell {
         newsImageView.layer.cornerCurve     = .continuous
         
         NSLayoutConstraint.activate([
-            self.newsImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -13),
+            self.newsImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
             self.newsImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             self.newsImageView.heightAnchor.constraint(equalToConstant: 90),
             self.newsImageView.widthAnchor.constraint(equalToConstant: 90)
@@ -91,7 +91,7 @@ class NewsCompactCVCell: UICollectionViewCell {
         mainStackView.axis          = .vertical
         mainStackView.clipsToBounds = true
         
-        let padding: CGFloat = 13
+        let padding: CGFloat = 10
         
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
@@ -111,7 +111,7 @@ class NewsCompactCVCell: UICollectionViewCell {
         self.mainStackView.addArrangedSubview(newsTitleLabel)
         self.mainStackView.setCustomSpacing(5, after: newsSectionLabel)
         
-        newsTitleLabel.numberOfLines                = 2
+        newsTitleLabel.numberOfLines                = 3
         newsTitleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
     }
     

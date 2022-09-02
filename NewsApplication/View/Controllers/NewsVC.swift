@@ -19,20 +19,19 @@ class NewsVC: UIViewController {
     }
     
     public var coordinator: NewsCoordinator?
+    
     private var viewModel       = NewsResultViewModel()
     private var newsViewModels  = [NewsViewModel]()
     private var disposeaBag     = DisposeBag()
     
-    private var newsCollectionView: UICollectionView!
+    private var newsCollectionView: NewsCollectionView!
     private var newsCollectionDataSource: UICollectionViewDiffableDataSource<Section, AnyHashable>!
-    private var newsCollectionLayout: UICollectionViewCompositionalLayout!
     
     // MARK: -
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureRootView()
-        configureCollectionViewLayout()
         configureCollectionView()
         configureDataSource()
         
@@ -81,14 +80,8 @@ class NewsVC: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>()
         
         snapshot.appendSections([.section, .regular, .compact])
-        
-        var newsSections: [String] = ["All"]
-        self.newsViewModels.forEach {
-            guard !newsSections.contains($0.section) else { return }
-            newsSections.append($0.section)
-        }
-        
-        snapshot.appendItems(newsSections, toSection: .section)
+
+        snapshot.appendItems(viewModel.newsSections, toSection: .section)
         snapshot.appendItems(Array(viewModels.prefix(upTo: Int(viewModels.count / 2))), toSection: .regular)
         snapshot.appendItems(Array(viewModels.suffix(from: Int(viewModels.count / 2))), toSection: .compact)
         
@@ -141,74 +134,17 @@ class NewsVC: UIViewController {
             return UICollectionViewCell()
         })
     }
-    
-    private func configureCollectionViewLayout() {
-        newsCollectionLayout = UICollectionViewCompositionalLayout(sectionProvider: { section, _ in
-            switch section {
-            case 0:
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .estimated(80),
-                                                                    heightDimension: .absolute(60)))
-                item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(16),
-                                                                 top: .none,
-                                                                 trailing: .none,
-                                                                 bottom: .none)
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                 heightDimension: .absolute(60)),
-                                                               subitems: [item])
-                group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .none,
-                                                                  top: .none,
-                                                                  trailing: .flexible(16),
-                                                                  bottom: .none)
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
-                
-                return section
-            case 1:
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                    heightDimension: .absolute(370)))
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                             leading: 16,
-                                                             bottom: 16,
-                                                             trailing: 16)
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                 heightDimension: .absolute(370)),
-                                                               subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .paging
-                
-                return section
-            case 2:
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                    heightDimension: .absolute(150)))
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                             leading: 16,
-                                                             bottom: 16,
-                                                             trailing: 16)
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                 heightDimension: .absolute(150)),
-                                                               subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                
-                return section
-            default:
-                break
-            }
-            
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .estimated(80), heightDimension: .absolute(60)))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60)), subitems: [item])
-            let section = NSCollectionLayoutSection(group: group)
-            
-            return section
-        })
-    }
 
     private func configureCollectionView() {
-        newsCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: newsCollectionLayout)
-        
+        newsCollectionView = NewsCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewLayout())        
         self.view.addSubview(newsCollectionView)
-        newsCollectionView.register(NewsSectionCVCell.self, forCellWithReuseIdentifier: NewsSectionCVCell.cellID)
-        newsCollectionView.register(NewsRegularCVCell.self, forCellWithReuseIdentifier: NewsRegularCVCell.cellID)
-        newsCollectionView.register(NewsCompactCVCell.self, forCellWithReuseIdentifier: NewsCompactCVCell.cellID)
+        
+        NSLayoutConstraint.activate([
+            newsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            newsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
 }

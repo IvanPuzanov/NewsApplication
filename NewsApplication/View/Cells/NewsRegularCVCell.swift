@@ -12,6 +12,7 @@ class NewsRegularCVCell: UICollectionViewCell {
     
     // MARK: -
     static let cellID = "regularCell"
+    private let disposeBag = DisposeBag()
     
     public var newsViewModel: NewsViewModel! {
         didSet {
@@ -19,12 +20,12 @@ class NewsRegularCVCell: UICollectionViewCell {
             self.newsTitleLabel.text    = newsViewModel.title
             self.newsDateLabel.text     = newsViewModel.date
             
-            self.newsViewModel.image.subscribe { image in
-                self.newsImageView.contentMode = .scaleAspectFill
-                self.newsImageView.image = image
-            } onError: { error in
-                print(error)
-            }.disposed(by: DisposeBag())
+            self.newsViewModel.image.debug().subscribe { image in
+                DispatchQueue.main.async {
+                    self.newsImageView.image        = image
+                    self.newsImageView.contentMode  = .scaleAspectFill
+                }
+            } onError: { _ in }.disposed(by: disposeBag)
 
         }
     }
