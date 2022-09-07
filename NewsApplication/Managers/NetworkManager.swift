@@ -15,7 +15,9 @@ class NetworkManager {
     func fetchData<T: Codable>(ofType: T.Type, from urlString: String) -> Observable<T> {
         return Observable.create { observer -> Disposable in
             
-            guard let url = URL(string: urlString) else { return Disposables.create() }
+            guard let url = URL(string: urlString) else {
+                observer.onError(NSError(domain: "No url", code: 0))
+                return Disposables.create() }
             
             do {
                 let decoder     = JSONDecoder()
@@ -24,7 +26,7 @@ class NetworkManager {
                 
                 observer.onNext(decodedData)
             } catch {
-                print(error.localizedDescription)
+                observer.onError(error)
             }
             
             return Disposables.create()

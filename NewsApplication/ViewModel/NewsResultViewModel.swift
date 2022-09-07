@@ -6,20 +6,26 @@
 //
 
 import RxSwift
+import Network
 
 class NewsResultViewModel {
     
     // MARK: -
     private let disposeBag = DisposeBag()
-    private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [])
+    
+    private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [.defaultViewModel(), .defaultViewModel(), .defaultViewModel(), .defaultViewModel()])
     public var newsSections: [String] {
-        get {
-            return filterBySections()
-        }
+        get { return filterBySections() }
     }
+    
+    private(set) var selectedSection: IndexPath = IndexPath(row: 0, section: 0)
+    
+    // MARK: -
+    init() { }
     
     // MARK: -
     /// Загрузка новостных данных из сети
+    @objc
     public func loadData() {
         DispatchQueue.global().async {
             NetworkManager
@@ -29,8 +35,6 @@ class NewsResultViewModel {
                 }
                 .subscribe { newsResult in
                     self.newsViewModels.onNext(newsResult)
-                    
-                    
                 } onError: { error in
                     self.newsViewModels.onError(error)
                 }.disposed(by: self.disposeBag)
@@ -41,20 +45,69 @@ class NewsResultViewModel {
     /// - Returns: Массив строк секций
     private func filterBySections() -> [String] {
         var sections = [String]()
-        
-        newsViewModels.subscribe { viewModels in
+        do {
+            let viewModels = try newsViewModels.value()
+
             var newsSections: [String] = ["All"]
             viewModels.forEach {
                 guard !newsSections.contains($0.section) else { return }
                 newsSections.append($0.section)
             }
+
             sections = newsSections
-        } onError: { _ in }.disposed(by: disposeBag)
-        
-        return sections
+            return sections
+        } catch {
+            return []
+        }
     }
     
-    public func didSelectItem(at: IndexPath) -> [NewsViewModel] {
+    public func didSelectSection(at indexPath: IndexPath) -> [NewsViewModel]? {
+        self.selectedSection = indexPath
         
+        var viewModels = [NewsViewModel]()
+        do {
+            viewModels = try newsViewModels.value()
+        } catch { return nil }
+        
+        switch indexPath.section {
+        case 0:
+            switch indexPath.item {
+            case 0:
+                return viewModels
+            default:
+                let filtered = viewModels.filter { $0.section.lowercased() == newsSections[indexPath.row].lowercased() }
+                return filtered
+            }
+        default:
+            break
+        }
+        
+        return nil
+    }
+    
+    public func didSelectNews(in collectionView: UICollectionView, at indexPath: IndexPath) -> NewsViewModel? {
+        guard indexPath.section != 0 else { return nil }
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? NewsViewModelProtocol {
+            return cell.newsViewModel
+        }
+        
+        return nil
+    }
+    
+    
+    public func prepareNews(news: [NewsViewModel]) -> (regular: [NewsViewModel], compact: [NewsViewModel]) {
+        var regularNews = [NewsViewModel]()
+        var compactNews = [NewsViewModel]()
+        
+        news.enumerated().forEach { index, viewModel in
+            if regularNews.count < 3 {
+                regularNews.append(viewModel)
+            } else {
+                compactNews.append(viewModel)
+            }
+        }
+        
+        return (regular: regularNews, compact: compactNews)
     }
 }

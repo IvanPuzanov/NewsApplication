@@ -8,7 +8,11 @@
 import UIKit
 import RxSwift
 
-class NewsRegularCVCell: UICollectionViewCell {
+protocol NewsViewModelProtocol {
+    var newsViewModel: NewsViewModel! { get set }
+}
+
+class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
     
     // MARK: -
     static let cellID = "regularCell"
@@ -16,18 +20,16 @@ class NewsRegularCVCell: UICollectionViewCell {
     
     public var newsViewModel: NewsViewModel! {
         didSet {
-            self.newsSectionLabel.text  = newsViewModel.section.uppercased()
-            self.newsTitleLabel.text    = newsViewModel.title
-            self.newsDateLabel.text     = newsViewModel.date
-            
-            self.newsViewModel.image.debug().subscribe { image in
-                DispatchQueue.main.async {
-                    self.newsImageView.image        = image
-                    self.newsImageView.contentMode  = .scaleAspectFill
-                }
-            } onError: { _ in }.disposed(by: disposeBag)
-
+            configureCell(with: newsViewModel)
         }
+    }
+    
+    override var isHighlighted: Bool {
+        didSet { cellDidHighlight() }
+    }
+    
+    override var isSelected: Bool {
+        didSet { cellDidSelect() }
     }
     
     // MARK: -
@@ -37,6 +39,7 @@ class NewsRegularCVCell: UICollectionViewCell {
     private let newsSectionLabel    = UILabel()
     private let newsTitleLabel      = UILabel()
     private let newsDateLabel       = UILabel()
+    private let newsAuthorLabel     = UILabel()
     
     // MARK: -
     override init(frame: CGRect) {
@@ -49,10 +52,63 @@ class NewsRegularCVCell: UICollectionViewCell {
         configureNewsSectionLabel()
         configureNewsTitleLabel()
         configureDateLabel()
+        configureNewsAuthorLabel()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: -
+    private func cellDidHighlight() {
+        switch isHighlighted {
+        case true:
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                self.transform              = CGAffineTransform(scaleX: 0.95, y: 0.95)
+                self.layer.shadowOpacity    = 0.2
+            }
+        case false:
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                self.transform              = .identity
+                self.layer.shadowOpacity    = 0.1
+            }
+        }
+    }
+    
+    private func cellDidSelect() {
+        switch isSelected {
+        case true:
+            let tapFeedback = UISelectionFeedbackGenerator()
+            tapFeedback.prepare()
+            tapFeedback.selectionChanged()
+        default:
+            break
+        }
+    }
+    
+    private func configureCell(with newsViewModel: NewsViewModel) {
+        switch newsViewModel.isPlaceholder {
+        case true:
+            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel].forEach {
+                $0.backgroundColor = .quaternarySystemFill
+            }
+        case false:
+            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel, self.imageStackView].forEach {
+                $0.backgroundColor = .clear
+            }
+            
+            self.newsSectionLabel.text  = newsViewModel.section.uppercased()
+            self.newsTitleLabel.text    = newsViewModel.title
+            self.newsDateLabel.text     = newsViewModel.date
+            self.newsAuthorLabel.text   = newsViewModel.author
+            
+            self.newsViewModel.image.subscribe { image in
+                DispatchQueue.main.async {
+                    self.newsImageView.image        = image
+                    self.newsImageView.contentMode  = .scaleAspectFill
+                }
+            } onError: { _ in }.disposed(by: disposeBag)
+        }
     }
     
     // MARK: -
@@ -109,6 +165,7 @@ class NewsRegularCVCell: UICollectionViewCell {
         newsImageView.layer.masksToBounds   = true
         newsImageView.contentMode           = .scaleAspectFit
         newsImageView.tintColor             = .quaternarySystemFill
+        newsImageView.image                 = UIImage(systemName: "photo.fill")
     }
     
     private func configureNewsSectionLabel() {
@@ -123,21 +180,23 @@ class NewsRegularCVCell: UICollectionViewCell {
         self.mainStackView.addArrangedSubview(newsTitleLabel)
         self.mainStackView.setCustomSpacing(5, after: newsSectionLabel)
         
-        newsTitleLabel.adjustsFontSizeToFitWidth    = true
-        newsTitleLabel.minimumScaleFactor           = 0.7
         newsTitleLabel.numberOfLines                = 2
-        newsTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        newsTitleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
     }
     
     private func configureDateLabel() {
         self.mainStackView.addArrangedSubview(newsDateLabel)
         self.mainStackView.setCustomSpacing(20, after: newsTitleLabel)
         
-        newsDateLabel.adjustsFontSizeToFitWidth    = true
-        newsDateLabel.minimumScaleFactor           = 0.7
-        newsDateLabel.numberOfLines                = 2
         newsDateLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         newsDateLabel.textColor = .secondaryLabel
+    }
+    
+    private func configureNewsAuthorLabel() {
+        self.mainStackView.addArrangedSubview(newsAuthorLabel)
+        
+        newsAuthorLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        newsAuthorLabel.textColor = .secondaryLabel
     }
 
 }

@@ -11,7 +11,7 @@ extension Date {
     
     func convertToMonthYearFormat() -> String {
         let dateFromatter = DateFormatter()
-        dateFromatter.dateFormat = "d MMMM yyyy"
+        dateFromatter.dateFormat = "MMMM d, yyyy"
         
         return dateFromatter.string(from: self)
     }

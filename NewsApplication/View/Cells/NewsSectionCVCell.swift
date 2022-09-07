@@ -45,6 +45,10 @@ class NewsSectionCVCell: UICollectionViewCell {
         switch isSelected {
         case true:
             sectionTitleLabel.textColor = .label
+            
+            let tapFeedback = UISelectionFeedbackGenerator()
+            tapFeedback.prepare()
+            tapFeedback.selectionChanged()
         case false:
             sectionTitleLabel.textColor = .secondaryLabel
         }

@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class NewsCompactCVCell: UICollectionViewCell {
+class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
     
     // MARK: -
     static let cellID = "compactCell"
@@ -16,17 +16,16 @@ class NewsCompactCVCell: UICollectionViewCell {
     
     public var newsViewModel: NewsViewModel! {
         didSet {
-            self.newsSectionLabel.text  = newsViewModel.section.uppercased()
-            self.newsTitleLabel.text    = newsViewModel.title
-            self.newsDateLabel.text     = newsViewModel.date
-            
-            self.newsViewModel.image.subscribe { image in
-                DispatchQueue.main.async {
-                    self.newsImageView.image        = image
-                    self.newsImageView.contentMode  = .scaleAspectFill
-                }
-            } onError: { _ in }.disposed(by: disposeBag)
+            configureCell(with: newsViewModel)
         }
+    }
+    
+    override var isHighlighted: Bool {
+        didSet { cellDidHighlight() }
+    }
+    
+    override var isSelected: Bool {
+        didSet { cellDidSelect() }
     }
     
     // MARK: -
@@ -54,15 +53,60 @@ class NewsCompactCVCell: UICollectionViewCell {
     }
     
     // MARK: -
+    private func cellDidHighlight() {
+        switch isHighlighted {
+        case true:
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                self.backgroundColor = .quaternarySystemFill
+                self.transform       = CGAffineTransform(scaleX: 0.97, y: 0.97)
+            }
+        case false:
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                self.backgroundColor = .clear
+                self.transform       = .identity
+            }
+        }
+    }
+    
+    private func cellDidSelect() {
+        switch isSelected {
+        case true:
+            let tapFeedback = UISelectionFeedbackGenerator()
+            tapFeedback.prepare()
+            tapFeedback.selectionChanged()
+        default:
+            break
+        }
+    }
+    
+    private func configureCell(with newsViewModel: NewsViewModel) {
+        switch newsViewModel.isPlaceholder {
+        case true:
+            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel, self.mainStackView].forEach {
+                $0.backgroundColor = .quaternarySystemFill
+            }
+        case false:
+            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel, self.mainStackView, self.newsImageView].forEach {
+                $0.backgroundColor = .clear
+            }
+            
+            self.newsSectionLabel.text  = newsViewModel.section.uppercased()
+            self.newsTitleLabel.text    = newsViewModel.title
+            self.newsDateLabel.text     = newsViewModel.date
+            
+            self.newsViewModel.image.subscribe { image in
+                DispatchQueue.main.async {
+                    self.newsImageView.image        = image
+                    self.newsImageView.contentMode  = .scaleAspectFill
+                }
+            } onError: { _ in }.disposed(by: disposeBag)
+        }
+    }
+    
+    // MARK: -
     private func configure() {
-//        self.backgroundColor    = UIColor(named: "cellBackground")
-//        self.layer.cornerRadius = 23
-//        self.layer.cornerCurve  = .continuous
-//
-//        self.layer.shadowColor      = UIColor.black.cgColor
-//        self.layer.shadowOffset     = CGSize(width: 0, height: 0)
-//        self.layer.shadowRadius     = 10
-//        self.layer.shadowOpacity    = 0.1
+        self.layer.cornerRadius = 23
+        self.layer.cornerCurve  = .continuous
     }
     
     private func configureNewsImageView() {
@@ -75,12 +119,13 @@ class NewsCompactCVCell: UICollectionViewCell {
         newsImageView.tintColor             = .quaternarySystemFill
         newsImageView.layer.cornerRadius    = 15
         newsImageView.layer.cornerCurve     = .continuous
+        newsImageView.image                 = UIImage(systemName: "photo.fill")
         
         NSLayoutConstraint.activate([
             self.newsImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
             self.newsImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            self.newsImageView.heightAnchor.constraint(equalToConstant: 90),
-            self.newsImageView.widthAnchor.constraint(equalToConstant: 90)
+            self.newsImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 12/14),
+            self.newsImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 12/14)
         ])
     }
     
@@ -109,7 +154,7 @@ class NewsCompactCVCell: UICollectionViewCell {
     
     private func configureNewsTitleLabel() {
         self.mainStackView.addArrangedSubview(newsTitleLabel)
-        self.mainStackView.setCustomSpacing(5, after: newsSectionLabel)
+        self.mainStackView.setCustomSpacing(2, after: newsSectionLabel)
         
         newsTitleLabel.numberOfLines                = 3
         newsTitleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)

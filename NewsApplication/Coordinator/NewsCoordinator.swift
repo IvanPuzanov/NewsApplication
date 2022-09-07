@@ -26,11 +26,25 @@ class NewsCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: false)
     }
     
-    func showFullArticle(for news: NewsViewModel) {
-        guard let url = URL(string: news.url) else { return }
+    func showFullArticle(for url: URL?) {
+        guard let url = url else { return }
         
         let safariVC = SFSafariViewController(url: url)
-        navigationController.present(safariVC, animated: true)
+        
+        DispatchQueue.main.async {
+            self.navigationController.present(safariVC, animated: true)
+        }
     }
     
+    func showErrorAlert(title: String, message: String) {
+        let alertVC = UIAlertController(title: "Error", message: "No connection", preferredStyle: .actionSheet)
+        let closeAction = UIAlertAction(title: "Close", style: .default) { _ in
+            alertVC.dismiss(animated: true)
+        }
+        alertVC.addAction(closeAction)
+        
+        DispatchQueue.main.async {
+            self.navigationController.present(alertVC, animated: true)
+        }
+    }
 }
