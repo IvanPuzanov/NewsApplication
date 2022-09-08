@@ -50,16 +50,16 @@ class NewsCollectionView: UICollectionView {
     private func bind() {
         self.viewModel.loadData()
         
-        _ = self.viewModel.newsViewModels.subscribe { viewModels in
+        self.viewModel.newsViewModels.subscribe { viewModels in
             self.updateData(with: viewModels)
         } onError: { error in
             self.coordinator?.showErrorAlert(title: "Error", message: "No connenction")
         }.disposed(by: disposeBag)
 
-        _ = self.rx.itemSelected.subscribe { indexPath in
+        self.rx.itemSelected.subscribe { indexPath in
             switch indexPath.section {
             case 0:
-                if let viewModels = self.viewModel.didSelectSection(at: indexPath) {
+                if let viewModels = self.viewModel.didSelectSection(in: self, at: indexPath) {
                     self.updateData(with: viewModels)
                 }
             default:
@@ -106,7 +106,8 @@ class NewsCollectionView: UICollectionView {
     
     // MARK: -
     private func configure() {
-        self.translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints  = false
+        self.allowsMultipleSelection                    = true
         
         self.register(NewsSectionCVCell.self, forCellWithReuseIdentifier: NewsSectionCVCell.cellID)
         self.register(NewsRegularCVCell.self, forCellWithReuseIdentifier: NewsRegularCVCell.cellID)

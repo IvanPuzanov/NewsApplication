@@ -61,8 +61,13 @@ class NewsResultViewModel {
         }
     }
     
-    public func didSelectSection(at indexPath: IndexPath) -> [NewsViewModel]? {
+    public func didSelectSection(in collectionView: UICollectionView, at indexPath: IndexPath) -> [NewsViewModel]? {
         self.selectedSection = indexPath
+        
+        collectionView.indexPathsForSelectedItems?.forEach { index in
+            guard indexPath != index else { return }
+            collectionView.deselectItem(at: index, animated: true)
+        }
         
         var viewModels = [NewsViewModel]()
         do {
@@ -89,7 +94,9 @@ class NewsResultViewModel {
         guard indexPath.section != 0 else { return nil }
         
         if let cell = collectionView.cellForItem(at: indexPath) as? NewsViewModelProtocol {
-            return cell.newsViewModel
+            collectionView.deselectItem(at: indexPath, animated: true)
+            let viewModel = cell.newsViewModel
+            return viewModel
         }
         
         return nil

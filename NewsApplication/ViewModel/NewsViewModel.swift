@@ -29,7 +29,7 @@ class NewsViewModel {
         self.subsection = news.subsection
         self.title      = news.title
         self.date       = news.updated_date.convertToDisplayFormat()
-        self.url = URL(string: news.url)
+        self.url        = URL(string: news.url)
         self.author     = news.byline
         
         guard let url = news.multimedia?.first(where: { $0.format == "threeByTwoSmallAt2X" })?.url else { return }
