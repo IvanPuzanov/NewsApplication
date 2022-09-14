@@ -52,7 +52,7 @@ extension NewsViewModel: Hashable {
     
     func hash(into hasher: inout Hasher) {}
     
-    static func defaultViewModel() -> NewsViewModel {
+    static func placeholderViewModel() -> NewsViewModel {
         let viewModel = NewsViewModel(news: News(section: "", subsection: "", title: "", abstract: "", url: "", updated_date: "", byline: "", multimedia: nil))
         viewModel.isPlaceholder = true
         return viewModel

@@ -87,15 +87,6 @@ class NewsCollectionView: UICollectionView {
         }
     }
     
-    public func setSelection() {
-        do {
-            let viewModels = try viewModel.newsViewModels.value()
-            guard !viewModels.isEmpty else { return }
-        } catch { }
-        
-        self.selectItem(at: viewModel.selectedSection, animated: true, scrollPosition: .top)
-    }
-    
     @objc
     private func pullToRefresh() {
         DispatchQueue.main.async {
@@ -112,6 +103,7 @@ class NewsCollectionView: UICollectionView {
         self.register(NewsSectionCVCell.self, forCellWithReuseIdentifier: NewsSectionCVCell.cellID)
         self.register(NewsRegularCVCell.self, forCellWithReuseIdentifier: NewsRegularCVCell.cellID)
         self.register(NewsCompactCVCell.self, forCellWithReuseIdentifier: NewsCompactCVCell.cellID)
+        self.register(NewsSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.cellID)
     }
     
     private func configureLayout() {
@@ -165,6 +157,12 @@ class NewsCollectionView: UICollectionView {
                                                                subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
                 
+                if !self.newsCollectionDataSource.snapshot().itemIdentifiers(inSection: .compact).isEmpty {
+                    let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(35)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+                    headerElement.pinToVisibleBounds = true
+                    section.boundarySupplementaryItems = [headerElement]
+                }
+                
                 return section
             default:
                 break
@@ -213,6 +211,15 @@ class NewsCollectionView: UICollectionView {
             
             return UICollectionViewCell()
         })
+        
+        newsCollectionDataSource.supplementaryViewProvider = { [unowned self] collectionView, kind, indexPath in
+            if let cell = self.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.cellID, for: indexPath) as? NewsSectionHeader {
+                cell.titleString = "Top stories"
+                return cell
+            }
+            return nil
+            
+        }
     }
     
     private func configureRefreshController() {

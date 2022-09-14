@@ -6,19 +6,28 @@
 //
 
 import UIKit
+import RxSwift
 
-class ProfileVC: UIViewController {
+class ProfileVC: UICollectionViewController {
     
     public var coordinator: Coordinator?
+    private let disposeBag          = DisposeBag()
+    private let profileViewModel    = ProfileViewModel()
     
-    private let profileView = ProfileView()
 
     // MARK: -
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureRootView()
-        configureProfileView()
+        
+        bind()
+    }
+    
+    // MARK: -
+    private func bind() {
+        
+
     }
     
     // MARK: -
@@ -26,16 +35,6 @@ class ProfileVC: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    private func configureProfileView() {
-        self.view.addSubview(profileView)
-        
-        NSLayoutConstraint.activate([
-            profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            profileView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
     }
 
 }

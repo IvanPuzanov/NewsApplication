@@ -13,12 +13,10 @@ class NewsResultViewModel {
     // MARK: -
     private let disposeBag = DisposeBag()
     
-    private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [.defaultViewModel(), .defaultViewModel(), .defaultViewModel(), .defaultViewModel()])
+    private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [.placeholderViewModel(), .placeholderViewModel(), .placeholderViewModel(), .placeholderViewModel(), .placeholderViewModel()])
     public var newsSections: [String] {
         get { return filterBySections() }
     }
-    
-    private(set) var selectedSection: IndexPath = IndexPath(row: 0, section: 0)
     
     // MARK: -
     init() { }
@@ -62,8 +60,6 @@ class NewsResultViewModel {
     }
     
     public func didSelectSection(in collectionView: UICollectionView, at indexPath: IndexPath) -> [NewsViewModel]? {
-        self.selectedSection = indexPath
-        
         collectionView.indexPathsForSelectedItems?.forEach { index in
             guard indexPath != index else { return }
             collectionView.deselectItem(at: index, animated: true)

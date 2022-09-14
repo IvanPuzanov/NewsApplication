@@ -23,12 +23,6 @@ class NewsVC: UIViewController {
         configureCollectionView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-//        newsCollectionView.setSelection()
-    }
-    
     // MARK: -
     private func configureRootView() {
         self.view.backgroundColor = .systemBackground
