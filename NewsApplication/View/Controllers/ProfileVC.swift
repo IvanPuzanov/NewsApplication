@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class ProfileVC: UICollectionViewController {
+class ProfileVC: UIViewController {
     
     public var coordinator: Coordinator?
     private let disposeBag          = DisposeBag()
@@ -26,13 +26,15 @@ class ProfileVC: UICollectionViewController {
     
     // MARK: -
     private func bind() {
-        
 
+        
     }
     
     // MARK: -
     private func configureRootView() {
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor   = .systemBackground
+        self.title                  = "Profile"
+        
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
