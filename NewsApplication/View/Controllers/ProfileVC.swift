@@ -20,15 +20,9 @@ class ProfileVC: UIViewController {
         super.viewDidLoad()
 
         configureRootView()
-        
-        bind()
     }
     
     // MARK: -
-    private func bind() {
-
-        
-    }
     
     // MARK: -
     private func configureRootView() {
