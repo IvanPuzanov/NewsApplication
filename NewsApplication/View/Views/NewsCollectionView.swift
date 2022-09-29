@@ -19,7 +19,7 @@ class NewsCollectionView: UICollectionView {
 
     public var coordinator: NewsCoordinator?
     
-    private var viewModel       = NewsResultViewModel()
+    private var viewModel      = NewsResultViewModel()
     private var disposeBag     = DisposeBag()
     
     private var newsCollectionLayout: UICollectionViewCompositionalLayout!
@@ -40,10 +40,6 @@ class NewsCollectionView: UICollectionView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        print("Deinited")
     }
     
     // MARK: -
@@ -196,7 +192,6 @@ class NewsCollectionView: UICollectionView {
                     cell.newsViewModel = viewModel
                     return cell
                 }
-                break
             case 2:
                 guard let viewModel = itemIdentifier as? NewsViewModel else { return UICollectionViewCell() }
                 
@@ -204,7 +199,6 @@ class NewsCollectionView: UICollectionView {
                     cell.newsViewModel = viewModel
                     return cell
                 }
-                break
             default:
                 break
             }
@@ -213,7 +207,9 @@ class NewsCollectionView: UICollectionView {
         })
         
         newsCollectionDataSource.supplementaryViewProvider = { [unowned self] collectionView, kind, indexPath in
-            if let cell = self.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.cellID, for: indexPath) as? NewsSectionHeader {
+            if let cell = self.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
+                                                                withReuseIdentifier: NewsSectionHeader.cellID,
+                                                                for: indexPath) as? NewsSectionHeader {
                 cell.titleString = "Top stories"
                 return cell
             }
