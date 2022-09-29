@@ -1,5 +1,5 @@
 # News Application
-!<img src="NewsApplication/GitCustomization/demo.gif" width="400" height="790">
+<img src="NewsApplication/GitCustomization/demo.gif" width="400" height="790">
 
 Stack
 ========
