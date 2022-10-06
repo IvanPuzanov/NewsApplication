@@ -12,6 +12,11 @@ class NetworkManager {
     static var shared = NetworkManager()
     private init() {}
     
+    /// Получение данных из сети
+    /// - Parameters:
+    ///   - ofType: Тип запрашиваемых данных
+    ///   - urlString: Источник получения данных
+    /// - Returns: Наблюдаемый тип запрошенных данных
     func fetchData<T: Codable>(ofType: T.Type, from urlString: String) -> Observable<T> {
         return Observable.create { observer -> Disposable in
             
@@ -33,6 +38,9 @@ class NetworkManager {
         }
     }
     
+    /// Получение изображения из сети
+    /// - Parameter urlString: Источник получения данных
+    /// - Returns: Наблюдаемый тип изображения
     func fetchImage(from urlString: String?) -> Observable<UIImage> {
         return Observable.create { observer -> Disposable in
             

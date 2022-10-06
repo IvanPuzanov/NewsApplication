@@ -14,12 +14,14 @@ class ProfileVC: UIViewController {
     private let disposeBag          = DisposeBag()
     private let profileViewModel    = ProfileViewModel()
     
+    private let profileView = ProfileView()
 
     // MARK: -
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureRootView()
+        configureProfileView()
         
         bind()
     }
@@ -38,5 +40,14 @@ class ProfileVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
-
+    
+    private func configureProfileView() {
+        self.view.addSubview(profileView)
+        
+        NSLayoutConstraint.activate([
+            profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            profileView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
 }

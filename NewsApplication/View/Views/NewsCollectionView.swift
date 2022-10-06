@@ -43,6 +43,8 @@ class NewsCollectionView: UICollectionView {
     }
     
     // MARK: -
+    
+    /// Связывание данных в моделью представления
     private func bind() {
         self.viewModel.loadData()
         
@@ -66,6 +68,8 @@ class NewsCollectionView: UICollectionView {
         } onError: { error in }.disposed(by: disposeBag)
     }
     
+    /// Обновление данных в коллекции
+    /// - Parameter viewModels: Массив моделей представления новостей
     private func updateData(with viewModels: [NewsViewModel]) {
         guard !viewModels.isEmpty else { return }
         
