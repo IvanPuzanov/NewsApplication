@@ -35,9 +35,13 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
     // MARK: -
     private let imageStackView      = UIStackView()
     private let mainStackView       = UIStackView()
+    
+    private let titlesStackView     = UIStackView()
     private let newsImageView       = UIImageView()
     private let newsSectionLabel    = UILabel()
     private let newsTitleLabel      = UILabel()
+    
+    private let detailsStackView    = UIStackView()
     private let newsDateLabel       = UILabel()
     private let newsAuthorLabel     = UILabel()
     
@@ -49,8 +53,10 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
         configureImageStackView()
         configureMainStackView()
         configureNewsImageView()
+        configureTitlesStackView()
         configureNewsSectionLabel()
         configureNewsTitleLabel()
+        configureDetailsStackView()
         configureDateLabel()
         configureNewsAuthorLabel()
     }
@@ -89,12 +95,16 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
     private func configureCell(with newsViewModel: NewsViewModel) {
         switch newsViewModel.isPlaceholder {
         case true:
-            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel].forEach {
-                $0.backgroundColor = .quaternarySystemFill
+            [self.titlesStackView, self.detailsStackView].forEach {
+                $0.backgroundColor      = .quaternarySystemFill
+                $0.layer.cornerRadius   = 17
+                $0.layer.cornerCurve    = .continuous
             }
         case false:
-            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel, self.imageStackView].forEach {
-                $0.backgroundColor = .clear
+            [self.titlesStackView, self.detailsStackView].forEach {
+                $0.backgroundColor      = .clear
+                $0.layer.cornerRadius   = 0
+                $0.layer.cornerCurve    = .continuous
             }
             
             self.newsSectionLabel.text  = newsViewModel.section.uppercased()
@@ -109,6 +119,13 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
                 }
             } onError: { _ in }.disposed(by: disposeBag)
         }
+    }
+    
+    override func prepareForReuse() {
+        self.newsImageView.image    = nil
+        self.newsTitleLabel.text    = nil
+        self.newsDateLabel.text     = nil
+        self.newsAuthorLabel.text   = nil
     }
     
     // MARK: -
@@ -146,6 +163,7 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
         self.addSubview(mainStackView)
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
+        mainStackView.distribution  = .equalCentering
         mainStackView.axis          = .vertical
         mainStackView.clipsToBounds = true
         
@@ -159,6 +177,11 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
         ])
     }
     
+    private func configureTitlesStackView() {
+        self.mainStackView.addArrangedSubview(titlesStackView)
+        self.titlesStackView.axis = .vertical
+    }
+    
     private func configureNewsImageView() {
         self.imageStackView.addArrangedSubview(newsImageView)
         newsImageView.clipsToBounds         = true
@@ -169,34 +192,44 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
     }
     
     private func configureNewsSectionLabel() {
-        self.mainStackView.addArrangedSubview(newsSectionLabel)
-        self.mainStackView.setCustomSpacing(3, after: newsSectionLabel)
+        self.titlesStackView.addArrangedSubview(newsSectionLabel)
+        self.titlesStackView.setCustomSpacing(3, after: newsSectionLabel)
         
         self.newsSectionLabel.textColor = .secondaryLabel
         self.newsSectionLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        self.newsSectionLabel.text = " "
     }
     
     private func configureNewsTitleLabel() {
-        self.mainStackView.addArrangedSubview(newsTitleLabel)
-        self.mainStackView.setCustomSpacing(5, after: newsSectionLabel)
+        self.titlesStackView.addArrangedSubview(newsTitleLabel)
+        self.titlesStackView.setCustomSpacing(5, after: newsSectionLabel)
         
         newsTitleLabel.numberOfLines                = 2
         newsTitleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        newsTitleLabel.text = " "
+    }
+    
+    private func configureDetailsStackView() {
+        self.mainStackView.addArrangedSubview(detailsStackView)
+        self.detailsStackView.axis = .vertical
+        
     }
     
     private func configureDateLabel() {
-        self.mainStackView.addArrangedSubview(newsDateLabel)
-        self.mainStackView.setCustomSpacing(20, after: newsTitleLabel)
+        self.detailsStackView.addArrangedSubview(newsDateLabel)
+        self.detailsStackView.setCustomSpacing(20, after: newsTitleLabel)
         
         newsDateLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         newsDateLabel.textColor = .secondaryLabel
+        newsDateLabel.text = " "
     }
     
     private func configureNewsAuthorLabel() {
-        self.mainStackView.addArrangedSubview(newsAuthorLabel)
+        self.detailsStackView.addArrangedSubview(newsAuthorLabel)
         
         newsAuthorLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         newsAuthorLabel.textColor = .secondaryLabel
+        newsAuthorLabel.text = " "
     }
 
 }

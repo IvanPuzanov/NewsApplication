@@ -46,5 +46,8 @@ class NewsCoordinator: Coordinator {
         DispatchQueue.main.async {
             self.navigationController.present(alertVC, animated: true)
         }
+        
+        let image = UIImage().cgImage
+        let bitmap = image?.bitmapInfo
     }
 }

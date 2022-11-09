@@ -83,7 +83,9 @@ class NewsCollectionView: UICollectionView {
         snapshot.appendItems(news.compact, toSection: .compact)
         
         DispatchQueue.main.async {
-            self.newsCollectionDataSource.apply(snapshot, animatingDifferences: true)
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9) {
+                self.newsCollectionDataSource.apply(snapshot, animatingDifferences: true)
+            }
         }
     }
     

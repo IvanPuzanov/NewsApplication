@@ -82,12 +82,16 @@ class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
     private func configureCell(with newsViewModel: NewsViewModel) {
         switch newsViewModel.isPlaceholder {
         case true:
-            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel, self.mainStackView].forEach {
-                $0.backgroundColor = .quaternarySystemFill
+            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel].forEach {
+                $0.backgroundColor      = .quaternarySystemFill
+                $0.layer.cornerRadius   = 10
+                $0.layer.cornerCurve    = .continuous
             }
         case false:
-            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel, self.mainStackView, self.newsImageView].forEach {
-                $0.backgroundColor = .clear
+            [self.newsSectionLabel, self.newsTitleLabel, self.newsDateLabel].forEach {
+                $0.backgroundColor      = .clear
+                $0.layer.cornerRadius   = 0
+                $0.layer.cornerCurve    = .continuous
             }
             
             self.newsSectionLabel.text  = newsViewModel.section.uppercased()
@@ -101,6 +105,12 @@ class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
                 }
             } onError: { _ in }.disposed(by: disposeBag)
         }
+    }
+    
+    override func prepareForReuse() {
+        self.newsImageView.image    = nil
+        self.newsTitleLabel.text    = nil
+        self.newsDateLabel.text     = nil
     }
     
     // MARK: -
@@ -150,6 +160,7 @@ class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
         
         self.newsSectionLabel.textColor = .secondaryLabel
         self.newsSectionLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        self.newsSectionLabel.text = " "
     }
     
     private func configureNewsTitleLabel() {
@@ -158,6 +169,7 @@ class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
         
         newsTitleLabel.numberOfLines                = 3
         newsTitleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        newsTitleLabel.text = " "
     }
     
     private func configureDateLabel() {
@@ -169,5 +181,6 @@ class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
         newsDateLabel.numberOfLines                = 2
         newsDateLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         newsDateLabel.textColor = .secondaryLabel
+        newsDateLabel.text = " "
     }
 }
