@@ -11,3 +11,4 @@ Stack
 + Diffable Data Source
 + Compositional layout
 + nytimes.com API
++ SwiftLint

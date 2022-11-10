@@ -29,6 +29,7 @@
 		2AB9BA4D291CA9A60087FC1E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9BA4C291CA9A60087FC1E /* Project.swift */; };
 		2AB9BA4F291CCCE90087FC1E /* UILabel + Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9BA4E291CCCE90087FC1E /* UILabel + Ex.swift */; };
 		2AB9BA51291CD2430087FC1E /* CALayer + Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9BA50291CD2430087FC1E /* CALayer + Ex.swift */; };
+		2AB9BA53291CD5790087FC1E /* UIView + Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9BA52291CD5790087FC1E /* UIView + Ex.swift */; };
 		2AD3CDD528C77A73009B312D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD3CDD428C77A73009B312D /* ProfileView.swift */; };
 		2AD3CDD728C77A97009B312D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD3CDD628C77A97009B312D /* ProfileViewModel.swift */; };
 		2AF75FF128B108EF001E12B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF75FF028B108EF001E12B5 /* AppDelegate.swift */; };
@@ -61,6 +62,7 @@
 		2AB9BA4C291CA9A60087FC1E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		2AB9BA4E291CCCE90087FC1E /* UILabel + Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Ex.swift"; sourceTree = "<group>"; };
 		2AB9BA50291CD2430087FC1E /* CALayer + Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer + Ex.swift"; sourceTree = "<group>"; };
+		2AB9BA52291CD5790087FC1E /* UIView + Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Ex.swift"; sourceTree = "<group>"; };
 		2AD3CDD428C77A73009B312D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		2AD3CDD628C77A97009B312D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2AF75FED28B108EF001E12B5 /* NewsApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +164,7 @@
 				2A5CEF6828B2511600DA4B5B /* Date + Ex.swift */,
 				2AB9BA4E291CCCE90087FC1E /* UILabel + Ex.swift */,
 				2AB9BA50291CD2430087FC1E /* CALayer + Ex.swift */,
+				2AB9BA52291CD5790087FC1E /* UIView + Ex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				2AAE3EAB28CF239F00C900C4 /* NewsSectionHeader.swift in Sources */,
 				2A5CEF6228B140C300DA4B5B /* NewsRegularCVCell.swift in Sources */,
 				2AAE3EAD28CF5BFD00C900C4 /* ProfileCard.swift in Sources */,
+				2AB9BA53291CD5790087FC1E /* UIView + Ex.swift in Sources */,
 				2A5CEF5928B125DE00DA4B5B /* NewsResult.swift in Sources */,
 				2AD3CDD728C77A97009B312D /* ProfileViewModel.swift in Sources */,
 				2A5CEF6E28B3853000DA4B5B /* News.swift in Sources */,

@@ -90,6 +90,7 @@ final class NewsVC: UICollectionViewController {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9) {
                 self.newsCollectionDataSource.apply(snapshot, animatingDifferences: true)
+                self.view.dismissLoadingIndicator()
             }
         }
     }
@@ -110,6 +111,8 @@ final class NewsVC: UICollectionViewController {
         self.collectionView.register(NewsRegularCVCell.self, forCellWithReuseIdentifier: NewsRegularCVCell.cellID)
         self.collectionView.register(NewsCompactCVCell.self, forCellWithReuseIdentifier: NewsCompactCVCell.cellID)
         self.collectionView.register(NewsSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.cellID)
+        
+        self.view.showLoadingIndicator()
     }
     
     private func configureLayout() {

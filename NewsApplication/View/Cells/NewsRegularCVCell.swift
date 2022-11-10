@@ -136,12 +136,11 @@ final class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
         self.addSubview(imageStackView)
         imageStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageStackView.axis             = .vertical
-        imageStackView.clipsToBounds    = true
-        imageStackView.layer.cornerRadius   = 23
-        imageStackView.layer.cornerCurve    = .continuous
+        imageStackView.axis                 = .vertical
+        imageStackView.clipsToBounds        = true
         imageStackView.layer.maskedCorners  = CACornerMask([.layerMinXMinYCorner, .layerMaxXMinYCorner])
         imageStackView.layer.masksToBounds  = true
+        imageStackView.layer.configure(cornerRadius: 23)
         
         NSLayoutConstraint.activate([
             imageStackView.leadingAnchor.constraint(equalTo: leadingAnchor),

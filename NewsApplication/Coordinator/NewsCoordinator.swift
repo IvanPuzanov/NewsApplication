@@ -44,7 +44,7 @@ final class NewsCoordinator: Coordinator {
     ///   - title: Alert title
     ///   - message: Alert message
     func showErrorAlert(title: String = "Error", message: String = "Something went wrong") {
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let closeAction = UIAlertAction(title: "Close", style: .default) { _ in
             alertVC.dismiss(animated: true)
         }
