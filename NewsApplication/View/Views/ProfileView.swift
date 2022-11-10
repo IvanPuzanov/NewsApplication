@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileView: UIControl {
+final class ProfileView: UIControl {
 
     // MARK: -
     private let profileViewModel = ProfileViewModel()

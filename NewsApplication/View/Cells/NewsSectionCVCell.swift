@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NewsSectionCVCell: UICollectionViewCell {
+final class NewsSectionCVCell: UICollectionViewCell {
     
     // MARK: -
     static let cellID = "sectionCell"

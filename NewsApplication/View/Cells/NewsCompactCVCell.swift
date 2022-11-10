@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
+final class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
     
     // MARK: -
     static let cellID = "compactCell"

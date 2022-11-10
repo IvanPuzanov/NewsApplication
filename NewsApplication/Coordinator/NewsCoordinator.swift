@@ -20,7 +20,7 @@ class NewsCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = NewsVC()
+        let viewController = NewsVC(collectionViewLayout: UICollectionViewLayout())
         viewController.coordinator = self
         viewController.tabBarItem = UITabBarItem(title: "News", image: UIImage(systemName: "newspaper.fill"), tag: 0)
         navigationController.pushViewController(viewController, animated: false)

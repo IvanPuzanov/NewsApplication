@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewsSectionHeader: UICollectionReusableView {
+final class NewsSectionHeader: UICollectionReusableView {
     
     // MARK: -
     static let cellID = "sectionHeader"

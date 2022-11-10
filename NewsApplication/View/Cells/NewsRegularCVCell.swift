@@ -12,7 +12,7 @@ protocol NewsViewModelProtocol {
     var newsViewModel: NewsViewModel! { get set }
 }
 
-class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
+final class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
     
     // MARK: -
     static let cellID = "regularCell"

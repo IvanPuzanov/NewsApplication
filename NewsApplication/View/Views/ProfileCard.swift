@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileCard: UIControl {
+final class ProfileCard: UIControl {
 
     // MARK: -
     private let stackView       = UIStackView()

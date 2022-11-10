@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class ProfileVC: UIViewController {
+final class ProfileVC: UIViewController {
     
     public var coordinator: Coordinator?
     private let disposeBag          = DisposeBag()
