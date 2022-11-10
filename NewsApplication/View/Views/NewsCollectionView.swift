@@ -155,12 +155,16 @@ class NewsCollectionView: UICollectionView {
                                                              bottom: 16,
                                                              trailing: 16)
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                 heightDimension: .absolute(150)),
+                                                                               heightDimension: .absolute(150)),
                                                                subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
                 
                 if !self.newsCollectionDataSource.snapshot().itemIdentifiers(inSection: .compact).isEmpty {
-                    let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(35)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+                    typealias SupplementaryItem = NSCollectionLayoutBoundarySupplementaryItem
+                    let layoutSize      = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(35))
+                    let headerElement   = SupplementaryItem(layoutSize: layoutSize,
+                                                            elementKind: UICollectionView.elementKindSectionHeader,
+                                                            alignment: .topLeading)
                     headerElement.pinToVisibleBounds = true
                     section.boundarySupplementaryItems = [headerElement]
                 }
@@ -170,9 +174,11 @@ class NewsCollectionView: UICollectionView {
                 break
             }
             
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .estimated(80), heightDimension: .absolute(60)))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60)), subitems: [item])
-            let section = NSCollectionLayoutSection(group: group)
+            let itemSize    = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .absolute(60))
+            let item        = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize   = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60))
+            let group       = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            let section     = NSCollectionLayoutSection(group: group)
             
             return section
         })
@@ -181,7 +187,7 @@ class NewsCollectionView: UICollectionView {
     }
     
     private func configureDataSource() {
-        newsCollectionDataSource = UICollectionViewDiffableDataSource(collectionView: self, cellProvider: { collectionView, indexPath, itemIdentifier in
+        newsCollectionDataSource = UICollectionViewDiffableDataSource(collectionView: self, cellProvider: { _, indexPath, itemIdentifier in
             
             switch indexPath.section {
             case 0:
@@ -212,7 +218,7 @@ class NewsCollectionView: UICollectionView {
             return UICollectionViewCell()
         })
         
-        newsCollectionDataSource.supplementaryViewProvider = { [unowned self] collectionView, kind, indexPath in
+        newsCollectionDataSource.supplementaryViewProvider = { [unowned self] _, _, indexPath in
             if let cell = self.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
                                                                 withReuseIdentifier: NewsSectionHeader.cellID,
                                                                 for: indexPath) as? NewsSectionHeader {

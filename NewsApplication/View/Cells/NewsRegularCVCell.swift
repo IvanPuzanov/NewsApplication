@@ -130,7 +130,7 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
     
     // MARK: -
     private func configure() {
-        self.backgroundColor    = UIColor(named: "cellBackground")
+        self.backgroundColor    = Project.Color.cellBackground
         self.layer.cornerRadius = 23
         self.layer.cornerCurve  = .continuous
         
@@ -188,7 +188,7 @@ class NewsRegularCVCell: UICollectionViewCell, NewsViewModelProtocol {
         newsImageView.layer.masksToBounds   = true
         newsImageView.contentMode           = .scaleAspectFit
         newsImageView.tintColor             = .quaternarySystemFill
-        newsImageView.image                 = UIImage(systemName: "photo.fill")
+        newsImageView.image                 = Project.Image.placeholderImage
     }
     
     private func configureNewsSectionLabel() {

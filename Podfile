@@ -9,4 +9,6 @@ target 'NewsApplication' do
 
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'SwiftLint'
+
 end

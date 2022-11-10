@@ -13,7 +13,7 @@ struct News: Codable {
     var title: String
     var abstract: String
     var url: String
-    var updated_date: String
+    var updatedDate: String
     var byline: String
     var multimedia: [NewsMedia]?
 }

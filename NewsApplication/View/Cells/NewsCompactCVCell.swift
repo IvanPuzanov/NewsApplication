@@ -129,7 +129,7 @@ class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
         newsImageView.tintColor             = .quaternarySystemFill
         newsImageView.layer.cornerRadius    = 15
         newsImageView.layer.cornerCurve     = .continuous
-        newsImageView.image                 = UIImage(systemName: "photo.fill")
+        newsImageView.image                 = Project.Image.placeholderImage
         
         NSLayoutConstraint.activate([
             self.newsImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),

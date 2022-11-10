@@ -28,7 +28,7 @@ class NewsViewModel {
         self.section    = news.section
         self.subsection = news.subsection
         self.title      = news.title
-        self.date       = news.updated_date.convertToDisplayFormat()
+        self.date       = news.updatedDate.convertToDisplayFormat()
         self.url        = URL(string: news.url)
         self.author     = news.byline
         
@@ -53,7 +53,7 @@ extension NewsViewModel: Hashable {
     func hash(into hasher: inout Hasher) {}
     
     static func placeholderViewModel() -> NewsViewModel {
-        let viewModel = NewsViewModel(news: News(section: "", subsection: "", title: "", abstract: "", url: "", updated_date: "", byline: "", multimedia: nil))
+        let viewModel = NewsViewModel(news: News(section: "", subsection: "", title: "", abstract: "", url: "", updatedDate: "", byline: "", multimedia: nil))
         viewModel.isPlaceholder = true
         return viewModel
     }

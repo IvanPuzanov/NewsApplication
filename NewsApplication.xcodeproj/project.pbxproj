@@ -26,6 +26,7 @@
 		2AAE3EAB28CF239F00C900C4 /* NewsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAE3EAA28CF239F00C900C4 /* NewsSectionHeader.swift */; };
 		2AAE3EAD28CF5BFD00C900C4 /* ProfileCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAE3EAC28CF5BFD00C900C4 /* ProfileCard.swift */; };
 		2AAE3EAF28CF5F0500C900C4 /* ProfileInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAE3EAE28CF5F0500C900C4 /* ProfileInfoModel.swift */; };
+		2AB9BA4D291CA9A60087FC1E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9BA4C291CA9A60087FC1E /* Project.swift */; };
 		2AD3CDD528C77A73009B312D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD3CDD428C77A73009B312D /* ProfileView.swift */; };
 		2AD3CDD728C77A97009B312D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD3CDD628C77A97009B312D /* ProfileViewModel.swift */; };
 		2ADF7CAF28B8DE1400974BF7 /* NewsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7CAE28B8DE1400974BF7 /* NewsCollectionView.swift */; };
@@ -56,6 +57,7 @@
 		2AAE3EAA28CF239F00C900C4 /* NewsSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSectionHeader.swift; sourceTree = "<group>"; };
 		2AAE3EAC28CF5BFD00C900C4 /* ProfileCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCard.swift; sourceTree = "<group>"; };
 		2AAE3EAE28CF5F0500C900C4 /* ProfileInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoModel.swift; sourceTree = "<group>"; };
+		2AB9BA4C291CA9A60087FC1E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		2AD3CDD428C77A73009B312D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		2AD3CDD628C77A97009B312D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2ADF7CAE28B8DE1400974BF7 /* NewsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCollectionView.swift; sourceTree = "<group>"; };
@@ -171,6 +173,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		2AB9BA4B291CA9940087FC1E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				2AB9BA4C291CA9A60087FC1E /* Project.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		2ADF7CAD28B8DE0700974BF7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +212,7 @@
 		2AF75FEF28B108EF001E12B5 /* NewsApplication */ = {
 			isa = PBXGroup;
 			children = (
+				2AB9BA4B291CA9940087FC1E /* Constants */,
 				2A5CEF5A28B12E5D00DA4B5B /* Managers */,
 				2A5CEF4C28B10AA200DA4B5B /* Coordinator */,
 				2A5CEF4B28B10A9200DA4B5B /* Model */,
@@ -243,6 +254,7 @@
 				2AF75FEA28B108EF001E12B5 /* Frameworks */,
 				2AF75FEB28B108EF001E12B5 /* Resources */,
 				7666B33347E05EFB1E1203AA /* [CP] Embed Pods Frameworks */,
+				2AB9BA4A291C3C480087FC1E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -321,6 +333,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2AB9BA4A291C3C480087FC1E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		7666B33347E05EFB1E1203AA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -348,6 +377,7 @@
 				2A5CEF5C28B12E6900DA4B5B /* NetworkManager.swift in Sources */,
 				2A5CEF6928B2511600DA4B5B /* Date + Ex.swift in Sources */,
 				2A5CEF7028B3853D00DA4B5B /* NewsMedia.swift in Sources */,
+				2AB9BA4D291CA9A60087FC1E /* Project.swift in Sources */,
 				2AF75FF528B108EF001E12B5 /* NewsVC.swift in Sources */,
 				2A5CEF5028B10FF200DA4B5B /* NewsCoordinator.swift in Sources */,
 				2A5CEF5628B1226100DA4B5B /* ProfileVC.swift in Sources */,

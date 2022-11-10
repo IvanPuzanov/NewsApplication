@@ -13,7 +13,7 @@ class NewsResultViewModel {
     // MARK: -
     private let disposeBag = DisposeBag()
     
-    private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [.placeholderViewModel(), .placeholderViewModel(), .placeholderViewModel(), .placeholderViewModel(), .placeholderViewModel()])
+    private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [.placeholderViewModel(), .placeholderViewModel()])
     public var newsSections: [String] {
         get { return filterBySections() }
     }
@@ -28,7 +28,7 @@ class NewsResultViewModel {
         DispatchQueue.global().async {
             NetworkManager
                 .shared
-                .fetchData(ofType: NewsResult.self, from: "https://api.nytimes.com/svc/topstories/v2/arts.json?api-key=QauJAWFmlv0WIhtlPKOujZuigpuc2AiK")
+                .fetchData(ofType: NewsResult.self, from: Project.Network.Link.baseURL)
                 .map { $0.results.map { NewsViewModel(news: $0) }
                 }
                 .subscribe { newsResult in
