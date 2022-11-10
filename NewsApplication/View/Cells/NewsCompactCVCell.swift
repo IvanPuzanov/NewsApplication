@@ -15,9 +15,7 @@ final class NewsCompactCVCell: UICollectionViewCell, NewsViewModelProtocol {
     private let disposeBag = DisposeBag()
     
     public var newsViewModel: NewsViewModel! {
-        didSet {
-            configureCell(with: newsViewModel)
-        }
+        didSet { configureCell(with: newsViewModel) }
     }
     
     override var isHighlighted: Bool {

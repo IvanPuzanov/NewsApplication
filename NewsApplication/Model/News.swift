@@ -17,3 +17,10 @@ struct News: Codable {
     var byline: String
     var multimedia: [NewsMedia]?
 }
+
+extension News {
+    static func placeholderNews() -> News {
+        return News(section: .init(), subsection: .init(), title: .init(), abstract: .init(),
+                    url: .init(), updatedDate: .init(), byline: .init())
+    }
+}

@@ -7,20 +7,22 @@
 
 import UIKit
 
-class ProfileCoordinator: Coordinator {
+final class ProfileCoordinator: Coordinator {
 
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
-    // MARK: -
+    // MARK: - Initializtion
     init(_ navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
+    /// Start coordinator
     func start() {
-        let viewController = ProfileVC()
-        viewController.coordinator = self
-        viewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.circle.fill"), tag: 1)
+        let viewController          = ProfileVC()
+        viewController.coordinator  = self
+        viewController.tabBarItem   = UITabBarItem(title: Project.Strings.profileTitle, image: Project.Image.personImage, tag: 1)
+        
         navigationController.pushViewController(viewController, animated: false)
     }
 }

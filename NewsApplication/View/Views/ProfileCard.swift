@@ -54,14 +54,8 @@ final class ProfileCard: UIControl {
     
     // MARK: -
     private func configure() {
-        self.backgroundColor    = UIColor(named: "cellBackground")
-        self.layer.cornerRadius = 23
-        self.layer.cornerCurve  = .continuous
-        
-        self.layer.shadowColor      = UIColor.black.cgColor
-        self.layer.shadowOffset     = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius     = 10
-        self.layer.shadowOpacity    = 0.1
+        self.backgroundColor    = Project.Color.cellBackground
+        self.layer.configure(cornerRadius: 23, setShadow: true)
     }
     
     private func configureStackView() {

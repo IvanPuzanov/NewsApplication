@@ -7,16 +7,16 @@
 
 import RxSwift
 
-class NetworkManager {
+final class NetworkManager {
     
     static var shared = NetworkManager()
     private init() {}
     
-    /// Получение данных из сети
+    /// Fetch data from network
     /// - Parameters:
-    ///   - ofType: Тип запрашиваемых данных
-    ///   - urlString: Источник получения данных
-    /// - Returns: Наблюдаемый тип запрошенных данных
+    ///   - ofType: Type of fetching data
+    ///   - urlString: Network source
+    /// - Returns: Observable fetch type
     func fetchData<T: Codable>(ofType: T.Type, from urlString: String) -> Observable<T> {
         return Observable.create { observer -> Disposable in
             
@@ -39,9 +39,9 @@ class NetworkManager {
         }
     }
     
-    /// Получение изображения из сети
-    /// - Parameter urlString: Источник получения данных
-    /// - Returns: Наблюдаемый тип изображения
+    /// Fetching image from network
+    /// - Parameter urlString: Network source
+    /// - Returns: Observable image
     func fetchImage(from urlString: String?) -> Observable<UIImage> {
         return Observable.create { observer -> Disposable in
             

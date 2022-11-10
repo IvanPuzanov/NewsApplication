@@ -71,14 +71,8 @@ final class ProfileView: UIControl {
     private func configure() {
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.backgroundColor    = UIColor(named: "cellBackground")
-        self.layer.cornerRadius = 23
-        self.layer.cornerCurve  = .continuous
-        
-        self.layer.shadowColor      = UIColor.black.cgColor
-        self.layer.shadowOffset     = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius     = 10
-        self.layer.shadowOpacity    = 0.1
+        self.backgroundColor    = Project.Color.cellBackground
+        self.layer.configure(cornerRadius: 23, setShadow: true)
     }
     
     private func configureImageView() {
@@ -86,7 +80,7 @@ final class ProfileView: UIControl {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         imageView.contentMode    = .scaleAspectFit
-        imageView.image          = UIImage(named: "myMemoji")
+        imageView.image          = Project.Image.myMemoji
         imageView.isUserInteractionEnabled = false
         
         NSLayoutConstraint.activate([

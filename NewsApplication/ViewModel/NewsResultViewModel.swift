@@ -8,21 +8,21 @@
 import RxSwift
 import Network
 
-class NewsResultViewModel {
+final class NewsResultViewModel {
     
-    // MARK: -
+    // MARK: - Parameters
     private let disposeBag = DisposeBag()
     
     private(set) var newsViewModels: BehaviorSubject<[NewsViewModel]> = .init(value: [.placeholderViewModel(), .placeholderViewModel()])
     public var newsSections: [String] {
-        get { return filterBySections() }
+        return filterBySections()
     }
     
-    // MARK: -
+    // MARK: - Initialization
     init() { }
     
     // MARK: -
-    /// Загрузка новостных данных из сети
+    /// Fetching news data from network
     @objc
     public func loadData() {
         DispatchQueue.global().async {
@@ -39,8 +39,8 @@ class NewsResultViewModel {
         }
     }
     
-    /// Фильтр новостей по секциям
-    /// - Returns: Массив строк секций
+    /// Filtering news by sections
+    /// - Returns: Array of sections
     private func filterBySections() -> [String] {
         var sections = [String]()
         do {
@@ -86,6 +86,11 @@ class NewsResultViewModel {
         return nil
     }
     
+    /// Fetch news view model for selection
+    /// - Parameters:
+    ///   - collectionView:
+    ///   - indexPath: Selection index
+    /// - Returns: NewsViewModel on selection
     public func didSelectNews(in collectionView: UICollectionView, at indexPath: IndexPath) -> NewsViewModel? {
         guard indexPath.section != 0 else { return nil }
         
@@ -98,12 +103,14 @@ class NewsResultViewModel {
         return nil
     }
     
-    
+    /// Prepare news for sections
+    /// - Parameter news: Array of news for preparing
+    /// - Returns: Prepared news tuple
     public func prepareNews(news: [NewsViewModel]) -> (regular: [NewsViewModel], compact: [NewsViewModel]) {
         var regularNews = [NewsViewModel]()
         var compactNews = [NewsViewModel]()
         
-        news.enumerated().forEach { index, viewModel in
+        news.forEach { viewModel in
             if regularNews.count < 3 {
                 regularNews.append(viewModel)
             } else {

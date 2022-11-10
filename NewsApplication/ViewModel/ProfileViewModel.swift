@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class ProfileViewModel {
+final class ProfileViewModel {
     var profileImage    = UIImage(named: "myMemoji")
     var profileName     = "Ivan Puzanov"
     var profileJob      = "iOS Developer"

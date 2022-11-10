@@ -12,9 +12,7 @@ final class NewsSectionHeader: UICollectionReusableView {
     // MARK: -
     static let cellID = "sectionHeader"
     public var titleString: String! {
-        didSet {
-            self.titleLabel.text = titleString
-        }
+        didSet { self.titleLabel.text = titleString }
     }
     
     private let titleLabel = UILabel()
@@ -46,7 +44,7 @@ final class NewsSectionHeader: UICollectionReusableView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         titleLabel.text = "Top stories"
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        titleLabel.configureWith(fontSize: 16, fontWeight: .semibold)
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),

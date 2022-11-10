@@ -14,15 +14,11 @@ final class NewsSectionCVCell: UICollectionViewCell {
     static let cellID = "sectionCell"
 
     public var sectionTitle: String! {
-        didSet {
-            self.sectionTitleLabel.text = sectionTitle.capitalized
-        }
+        didSet { self.sectionTitleLabel.text = sectionTitle.capitalized }
     }
     
     override var isSelected: Bool {
-        didSet {
-            cellSelected()
-        }
+        didSet { cellSelected() }
     }
     
     // MARK: -
@@ -63,9 +59,8 @@ final class NewsSectionCVCell: UICollectionViewCell {
         self.addSubview(sectionTitleLabel)
         sectionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        sectionTitleLabel.textAlignment = .center
-        sectionTitleLabel.textColor     = .secondaryLabel
-        sectionTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        sectionTitleLabel.configureWith(textAlignmnet: .center)
+        sectionTitleLabel.configureWith(fontSize: 16, fontWeight: .semibold, titleColor: .secondaryLabel)
         
         NSLayoutConstraint.activate([
             sectionTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

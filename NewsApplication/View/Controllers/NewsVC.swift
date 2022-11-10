@@ -20,14 +20,14 @@ final class NewsVC: UICollectionViewController {
     // MARK: -
     public var coordinator: NewsCoordinator?
     
-    private var viewModel      = NewsResultViewModel()
-    private var disposeBag     = DisposeBag()
+    private var viewModel   = NewsResultViewModel()
+    private var disposeBag  = DisposeBag()
     
     private var newsCollectionLayout: UICollectionViewCompositionalLayout!
     private var newsCollectionDataSource: UICollectionViewDiffableDataSource<Section, AnyHashable>!
     private var refreshController = UIRefreshControl()
     
-    // MARK: -
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +39,7 @@ final class NewsVC: UICollectionViewController {
         bind()
     }
     
+    // MARK: - Initialization
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
     }
@@ -47,9 +48,8 @@ final class NewsVC: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: -
-    
-    /// Связывание данных в моделью представления
+    // MARK: - Handle methods
+    /// Binding
     private func bind() {
         self.viewModel.loadData()
         
@@ -73,8 +73,8 @@ final class NewsVC: UICollectionViewController {
         } onError: { _ in }.disposed(by: disposeBag)
     }
     
-    /// Обновление данных в коллекции
-    /// - Parameter viewModels: Массив моделей представления новостей
+    /// Update collectionView
+    /// - Parameter viewModels: Array of news viewModels
     private func updateData(with viewModels: [NewsViewModel]) {
         guard !viewModels.isEmpty else { return }
         
@@ -93,7 +93,7 @@ final class NewsVC: UICollectionViewController {
             }
         }
     }
-    
+
     @objc
     private func pullToRefresh() {
         DispatchQueue.main.async {
@@ -102,7 +102,7 @@ final class NewsVC: UICollectionViewController {
         }
     }
     
-    // MARK: -
+    // MARK: - Configure methods
     private func configure() {
         self.collectionView.allowsMultipleSelection                    = true
         

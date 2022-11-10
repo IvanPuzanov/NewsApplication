@@ -9,8 +9,9 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class NewsViewModel {
+final class NewsViewModel {
    
+    // MARK: - Parameters
     let id = UUID().uuidString
     
     var section: String
@@ -19,11 +20,11 @@ class NewsViewModel {
     var date: String
     var url: URL?
     var author: String
-    var image: BehaviorRelay<UIImage> = .init(value: UIImage(systemName: "photo.fill")!)
+    var image: BehaviorRelay<UIImage> = .init(value: Project.Image.placeholderImage!)
     
     var isPlaceholder: Bool = false
     
-    // MARK: -
+    // MARK: - Initializatoin
     init(news: News) {
         self.section    = news.section
         self.subsection = news.subsection
@@ -39,7 +40,7 @@ class NewsViewModel {
             
             NetworkManager.shared.fetchImage(from: url).subscribe { image in
                 self.image.accept(image)
-            } onError: { error in }.disposed(by: DisposeBag())
+            } onError: { _ in }.disposed(by: DisposeBag())
         }
     }
     
@@ -53,7 +54,7 @@ extension NewsViewModel: Hashable {
     func hash(into hasher: inout Hasher) {}
     
     static func placeholderViewModel() -> NewsViewModel {
-        let viewModel = NewsViewModel(news: News(section: "", subsection: "", title: "", abstract: "", url: "", updatedDate: "", byline: "", multimedia: nil))
+        let viewModel = NewsViewModel(news: .placeholderNews())
         viewModel.isPlaceholder = true
         return viewModel
     }

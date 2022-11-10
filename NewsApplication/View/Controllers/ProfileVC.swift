@@ -10,29 +10,25 @@ import RxSwift
 
 final class ProfileVC: UIViewController {
     
+    // MARK: - Parameters
     public var coordinator: Coordinator?
     private let disposeBag          = DisposeBag()
     private let profileViewModel    = ProfileViewModel()
     
+    // MARK: - Views
     private let profileView = ProfileView()
 
-    // MARK: -
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureRootView()
         configureProfileView()
-        
-        bind()
     }
     
-    // MARK: -
-    private func bind() {
-
-        
-    }
+    // MARK: - Handle methods
     
-    // MARK: -
+    // MARK: - Configuring methods
     private func configureRootView() {
         self.view.backgroundColor   = .systemBackground
         self.title                  = "Profile"
